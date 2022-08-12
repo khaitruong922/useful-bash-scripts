@@ -2,15 +2,16 @@
 
 #!/bin/bash
 cwd=$(pwd)
-for i in */.git
+repos=$(find . -maxdepth 5 -type d -name "*.git")
+for i in $repos
 do
-echo "🧹 Cleaning local branches of ${i}..."
-cd $i/..
-branch=$(git symbolic-ref --short -q HEAD)
-echo "Current branch: ${branch}"
-git checkout develop -q || git checkout main -q || git checkout master -q
-git branch | grep -v "develop" | grep -v "main" | grep -v "master" | xargs --no-run-if-empty git branch -D
-echo "✔️  Done: ${i}."
-git checkout $branch -q
-cd $cwd
+    echo "🧹 Cleaning local branches of ${i}..."
+    cd $i/..
+    branch=$(git symbolic-ref --short -q HEAD)
+    echo "Current branch: ${branch}"
+    git checkout develop -q || git checkout main -q || git checkout master -q
+    git branch | grep -v "develop" | grep -v "main" | grep -v "master" | xargs --no-run-if-empty git branch -D
+    echo "✔️  Done: ${i}."
+    git checkout $branch -q
+    cd $cwd
 done
