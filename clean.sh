@@ -9,8 +9,8 @@ do
     cd $i/..
     branch=$(git symbolic-ref --short -q HEAD)
     echo "Current branch: ${branch}"
-    git checkout develop -q || git checkout main -q || git checkout master -q
-    git branch | grep -v "develop" | grep -v "main" | grep -v "master" | xargs --no-run-if-empty git branch -D
+    git checkout dev -q || git checkout develop -q || git checkout main -q || git checkout master -q
+    git branch | grep -v "develop" | grep -v "main" | grep -v "master" | xargs git branch -D
     echo "✔️  Done: ${i}."
     git checkout $branch -q
     cd $cwd
